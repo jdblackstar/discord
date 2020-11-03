@@ -1,5 +1,6 @@
 import os
 import random
+
 from dotenv import load_dotenv
 
 from discord.ext import commands
@@ -24,5 +25,13 @@ async def speak(ctx):
 
     response = random.choice(responses)
     await ctx.send(response)
+
+@bot.command(name='roll')
+async def roll(ctx, num_dice: int, num_sides: int):
+    dice = [
+        str(random.choice(range(1, num_sides + 1)))
+        for _ in range(num_dice)
+    ]
+    await ctx.send(', '.join(dice))
 
 bot.run(TOKEN)
