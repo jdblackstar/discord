@@ -2,6 +2,7 @@ import os
 import random
 
 import discord
+from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,6 +10,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client()
+bot = commands.Bot(command_prefix='!')
 
 @client.event
 async def on_ready():
@@ -38,6 +40,17 @@ async def on_message(message):
     elif message.content == 'raise-exception':
         raise discord.DiscordException
 
+@bot.command(name='speak')
+async def speak(ctx):
+    responses = [
+        'hi there',
+        'i\'m a bot',
+        'shadowlands is gonna suck'
+    ]
+
+    response = random.choice(responses)
+    await ctx.send(response)
+
 @client.event 
 async def on_error(event, *args, **kwargs):
     with open('err.log', 'a') as f:
@@ -47,3 +60,4 @@ async def on_error(event, *args, **kwargs):
             raise
 
 client.run(TOKEN)
+bot.run(TOKEN)
