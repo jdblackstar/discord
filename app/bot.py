@@ -1,9 +1,15 @@
 import os
 import random
+import functools
+import itertools
+import math
+import asyncio
+
+import discord
+import youtube_dl
+from discord.ext import commands
 
 from dotenv import load_dotenv
-
-from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -34,9 +40,9 @@ async def roll(ctx, num_dice: int, num_sides: int):
     ]
     await ctx.send(', '.join(dice))
 
-@bot.command(name='create_channel')
+@bot.command(name='create-channel')
 @commands.has_role('admin')
-async def create_channel(ctx, channel_name='bot_test'):
+async def create_channel(ctx, channel_name='bot-test-2'):
     guild = ctx.guild
     existing_channel = discord.utils.get(guild.channels, name=channel_name)
     if not existing_channel:
