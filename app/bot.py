@@ -19,7 +19,9 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
 
+################################
 ########## BOT EVENTS ##########
+################################
 
 # bot even to post a successful connection to stdout
 @bot.event
@@ -33,7 +35,9 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         await ctx.send('You do not have the correct role for this command.')
 
+########################################
 ########## BASIC BOT COMMANDS ##########
+########################################
 
 # 'speak' returns one of 4 random responses
 @bot.command(name='speak')
@@ -67,7 +71,9 @@ async def create_channel(ctx, channel_name='bot-test-2'):
         print(f'Creating a new channel: {channel_name}')
         await guild.create_text_channel(channel_name)
 
+#######################################################
 ########## MUSIC BOT ATTEMPT BELOW THIS LINE ##########
+#######################################################
 
 class VoiceError(Exception):
     pass
@@ -182,5 +188,24 @@ class YTDLSource(discord.PCMVolumeTransformer):
             duration.append('{} seconds'.format(seconds))
 
         return ', '.join(duration)
+
+class Song:
+    __slots__ = ('source', 'requester')
+
+    def __init__(self, source: YTDLSource):
+        self.source = source
+        self.requester = source.requester
+
+    def create_embed(self):
+        embed = (discord.Embed(title='Now playing',
+                               description='```css\n{0.source.title}\n```'.format(self),
+                               color=discord.Color.blurple())
+                 .add_field(name='Duration', value=self.source.duration)
+                 .add_field(name='Requested by', value=self.requester.mention)
+                 .add_field(name='Uploader', value='[{0.source.uploader}]({0.source.uploader_url})'.format(self))
+                 .add_field(name='URL', value='[Click]({0.source.url})'.format(self))
+                 .set_thumbnail(url=self.source.thumbnail))
+
+        return embed
 
 bot.run(TOKEN)
