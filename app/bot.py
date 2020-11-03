@@ -10,6 +10,8 @@ import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
 
+youtube_dl.utils.bug_reports_message = lambda: ''
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -68,10 +70,10 @@ async def create_channel(ctx, channel_name='bot-test-2'):
 ########## MUSIC BOT ATTEMPT BELOW THIS LINE ##########
 
 class VoiceError(Exception):
-    raise
+    pass
 
 class YTDLError(Exception):
-    raise
+    pass
 
 class YTDLSource(discord.PCMVolumeTransformer):
     YTDL_OPTIONS = {
