@@ -33,6 +33,46 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 #     if isinstance(error, commands.errors.CheckFailure):
 #         await ctx.send('You do not have the correct role for this command.')
 
+#########################################################
+########## ADMINISTRATIVE AND MODERATION TOOLS ##########
+#########################################################
+
+class Administrative(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot 
+
+    # @commands.command(name='mute')
+    # @commands.command(pass_context = True)
+    # async def mute(self, ctx: commands.Context, member: discord.Member):
+    #     if ctx.message.author.server_permissions.administrator or ctx.message.author.id == '194151340090327041':
+    #         role = discord.utils.get(member.server.roles, name='Muted')
+    #         await bot.add_roles(member, role)
+    #         embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
+    #         await bot.say(embed=embed)
+    #     else:
+    #         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
+    #         await bot.say(embed=embed)
+
+    @commands.command(name='create-channel')
+    @commands.has_role('admin')
+    async def create_channel(self, ctx: commands.Context, channel_name='bot-test-2'):
+        guild = ctx.guild
+        existing_channel = discord.utils.get(guild.channels, name=channel_name)
+        if not existing_channel:
+            print(f'Creating a new channel: {channel_name}')
+            await guild.create_text_channel(channel_name)
+
+    # @commands.command(name='delete-channel')
+    # @commands.has_role('admin')
+    # async def create_channel(self, ctx: commands.Context, channel_name=None):
+    #     guild = ctx.guild
+    #     existing_channel = discord.utils.get(guild.channels, name=channel_name)
+    #     if existing_channel:
+    #         print(f'Deleting the specifid channel: {channel_name}')
+    #         await guild.delete_text_channel(channel_name)
+    #     else:
+    #         print(f'Channel {channel_name} not found.')
+
 #######################################################
 ########## MUSIC BOT ATTEMPT BELOW THIS LINE ##########
 #######################################################
@@ -549,14 +589,10 @@ class Dice(commands.Cog):
         ]
         await ctx.send(', '.join(dice))
 
-#########################################################
-########## ADMINISTRATIVE AND MODERATION TOOLS ##########
-#########################################################
-
-class Administrative(commands.Cog):
+class Speak(commands.Cog):
     def __init__(self, bot: commands.Bot):
-        self.bot = bot 
-
+        self.bot = bot
+    
     @commands.command(name='speak')
     @commands.has_any_role('admin', 'friend')
     async def rand_response(self, ctx: commands.Context):
@@ -576,48 +612,16 @@ class Administrative(commands.Cog):
         response = random.choice(responses)
         await ctx.send(response)
 
-    # @commands.command(name='mute')
-    # @commands.command(pass_context = True)
-    # async def mute(self, ctx: commands.Context, member: discord.Member):
-    #     if ctx.message.author.server_permissions.administrator or ctx.message.author.id == '194151340090327041':
-    #         role = discord.utils.get(member.server.roles, name='Muted')
-    #         await bot.add_roles(member, role)
-    #         embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
-    #         await bot.say(embed=embed)
-    #     else:
-    #         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
-    #         await bot.say(embed=embed)
-
-    @commands.command(name='create-channel')
-    @commands.has_role('admin')
-    async def create_channel(self, ctx: commands.Context, channel_name='bot-test-2'):
-        guild = ctx.guild
-        existing_channel = discord.utils.get(guild.channels, name=channel_name)
-        if not existing_channel:
-            print(f'Creating a new channel: {channel_name}')
-            await guild.create_text_channel(channel_name)
-
-    # @commands.command(name='delete-channel')
-    # @commands.has_role('admin')
-    # async def create_channel(self, ctx: commands.Context, channel_name=None):
-    #     guild = ctx.guild
-    #     existing_channel = discord.utils.get(guild.channels, name=channel_name)
-    #     if existing_channel:
-    #         print(f'Deleting the specifid channel: {channel_name}')
-    #         await guild.delete_text_channel(channel_name)
-    #     else:
-    #         print(f'Channel {channel_name} not found.')
-
-
-bot = commands.Bot('!', description='The best, all purpose bot.')
-
 ############################################
 ########## ADD BOT COGS (MODULES) ##########
 ############################################
 
+bot = commands.Bot('!', description='The best, all purpose bot.')
+
+bot.add_cog(Administrative(bot))
 bot.add_cog(Music(bot))
 bot.add_cog(Dice(bot))
-bot.add_cog(Administrative(bot))
+bot.add_cog(Speak(bot))
 
 ##########################################
 ########## UNIVERSAL BOT EVENTS ##########
