@@ -44,9 +44,26 @@ class Administrative(commands.Cog):
 
     @commands.command(name='addrole', pass_context=True)
     @commands.has_any_role('admin', 'moderator')
-    async def addrole(self, ctx: commands.Context, user: discord.Member, role: discord.Role):
-        await user.add_roles(role)
-        await ctx.send(f'{user.name} has been given the \'{role.name}\' role by {ctx.author.name}.')
+    async def addrole(self, ctx: commands.Context, member: discord.Member, role: discord.Role):
+        await member.add_roles(role)
+        await ctx.send(f'{member.name} has been given the \'{role.name}\' role by {ctx.author.name}.')
+
+
+    @commands.command(name='mute', pass_context=True)
+    @commands.has_any_role('admin', 'moderator')
+    async def mute(self, ctx: commands.Context, member: discord.Member, mute_time: int, reason=None):
+        role = discord.utils.get(ctx.guild.roles, name='muted')
+        await member.add_roles(role)
+
+        embed = discord.Embed(color=discord.Color.green())
+        embed.add_field(name=f'You\'ve been **Muted** in {ctx.guild.name}.', value=f'**Action By: **{ctx.author.mention}\n**Reason: **{reason}\n**Duration:** {mute_time}')
+        await member.send(embed=embed)
+
+        await ctx.send(f'{member.name} muted for {mute_time} seconds by {ctx.author.name}.')
+        await asyncio.sleep(mute_time)
+        await member.remove_roles(role)
+        await ctx.send(f'{member.name} has been unmuted.')
+
 
     # @commands.command(name='mute')
     # @commands.command(pass_context = True)
@@ -60,6 +77,7 @@ class Administrative(commands.Cog):
     #         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
     #         await bot.say(embed=embed)
 
+
     @commands.command(name='create-channel')
     @commands.has_role('admin')
     async def create_channel(self, ctx: commands.Context, channel_name='bot-test-2'):
@@ -68,6 +86,7 @@ class Administrative(commands.Cog):
         if not existing_channel:
             print(f'Creating a new channel: {channel_name}')
             await guild.create_text_channel(channel_name)
+
 
     # @commands.command(name='delete-channel')
     # @commands.has_role('admin')
@@ -79,6 +98,7 @@ class Administrative(commands.Cog):
     #         await guild.delete_text_channel(channel_name)
     #     else:
     #         print(f'Channel {channel_name} not found.')
+
 
 #######################################################
 ########## MUSIC BOT ATTEMPT BELOW THIS LINE ##########
