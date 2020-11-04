@@ -23,43 +23,21 @@ bot = commands.Bot(command_prefix='!')
 ########## BOT EVENTS ##########
 ################################
 
-# bot even to post a successful connection to stdout
-@bot.event
-async def on_ready():
-    print(f'{bot.user.name} has connected to Discord!')
+# # bot even to post a successful connection to stdout
+# @bot.event
+# async def on_ready():
+#     print(f'{bot.user.name} has connected to Discord!')
 
 # bot event to let a user know that they don't have the proper role
 # for a specific bot command
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send('You do not have the correct role for this command.')
+# @bot.event
+# async def on_command_error(ctx, error):
+#     if isinstance(error, commands.errors.CheckFailure):
+#         await ctx.send('You do not have the correct role for this command.')
 
 ########################################
 ########## BASIC BOT COMMANDS ##########
 ########################################
-
-# 'speak' returns one of 4 random responses
-@bot.command(name='speak')
-async def speak(ctx):
-    responses = [
-        'response 1',
-        'response 2',
-        'response 3',
-        'response 4'
-    ]
-
-    response = random.choice(responses)
-    await ctx.send(response)
-
-# !roll (# of dice) (# of sides)
-@bot.command(name='roll')
-async def roll(ctx, num_dice: int, num_sides: int):
-    dice = [
-        str(random.choice(range(1, num_sides + 1)))
-        for _ in range(num_dice)
-    ]
-    await ctx.send(', '.join(dice))
 
 # command to create a channel, pass it channel_name to be specific
 @bot.command(name='create-channel')
@@ -579,8 +557,6 @@ class Dice(commands.Cog):
 
     # maybe add unload method here?
 
-    # I believe the syntax of this is correct, but need to install FFMPEG to check
-    # TODO install FFMPEG
     @commands.command(name='roll')
     async def roll(self, ctx: commands.Context, num_dice: int, num_sides: int):
         dice = [
@@ -589,13 +565,66 @@ class Dice(commands.Cog):
         ]
         await ctx.send(', '.join(dice))
 
-bot = commands.Bot('!', description='Yet another music bot.')
+class Administrative(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot 
+        self.voice_states = {}
+
+    @commands.command(name='speak')
+    @commands.has_any_role('admin', 'friend')
+    async def rand_response(self, ctx: commands.Context):
+        responses = [
+            'response 1',
+            'response 2',
+            'response 3',
+            'response 4',
+            'response 5',
+            'response 6',
+            'response 7',
+            'response 8',
+            'response 9',
+            'response 10'
+        ]
+        
+        response = random.choice(responses)
+        await ctx.send(response)
+
+    # @commands.command(name='mute')
+    # @commands.command(pass_context = True)
+    # async def mute(self, ctx: commands.Context, member: discord.Member):
+    #     if ctx.message.author.server_permissions.administrator or ctx.message.author.id == '194151340090327041':
+    #         role = discord.utils.get(member.server.roles, name='Muted')
+    #         await bot.add_roles(member, role)
+    #         embed=discord.Embed(title="User Muted!", description="**{0}** was muted by **{1}**!".format(member, ctx.message.author), color=0xff00f6)
+    #         await bot.say(embed=embed)
+    #     else:
+    #         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
+    #         await bot.say(embed=embed)
+
+    @commands.command(name='create-channel')
+    @commands.has_role('admin')
+    async def create_channel(self, ctx: commands.Context, channel_name='bot-test-2'):
+        guild = ctx.guild
+        existing_channel = discord.utils.get(guild.channels, name=channel_name)
+        if not existing_channel:
+            print(f'Creating a new channel: {channel_name}')
+            await guild.create_text_channel(channel_name)
+
+bot = commands.Bot('!', description='The best, all purpose bot.')
 bot.add_cog(Music(bot))
 bot.add_cog(Dice(bot))
-
+bot.add_cog(Administrative(bot))
 
 @bot.event
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.errors.CheckFailure):
+        await ctx.send('You do not have the correct role for this command.')
+
+# it would be bad form, but maybe I can just add regular @bot.commands here?
+# should probably avoid doing that as much as possible, though
 
 bot.run(TOKEN)
