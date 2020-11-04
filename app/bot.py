@@ -44,25 +44,9 @@ class Administrative(commands.Cog):
 
     @commands.command(name='addrole', pass_context=True)
     @commands.has_any_role('admin', 'moderator')
-    async def addrole(self, ctx: commands.Context, user: discord.User, role: discord.Role):
+    async def addrole(self, ctx: commands.Context, user: discord.Member, role: discord.Role):
         await user.add_roles(role)
-        await ctx.send(f'{user.name} has been given the {role.name} role by {ctx.author.name}.')
-
-    @commands.command(name='addtestrole', pass_context=True)
-    @commands.has_any_role('admin', 'moderator')
-    async def addtestrole(self, ctx: commands.Context):
-        member = ctx.message.author
-        role = 'test'
-        # await member.add_roles(role)
-        # await ctx.send(f'{member} has successfully received the {role} role.')
-
-        await ctx.send(f'Attempting to verify: {member}')
-        try:
-            await member.add_roles(discord.utils.get(member.guild.roles, name=role)) #add the role
-        except Exception as e:
-            await ctx.send('There was an error running this command ' + str(e)) #if error
-        else:
-            await ctx.send(f'Verified: {member}, role \'{role}\' received') # no errors, say verified
+        await ctx.send(f'{user.name} has been given the \'{role.name}\' role by {ctx.author.name}.')
 
     # @commands.command(name='mute')
     # @commands.command(pass_context = True)
