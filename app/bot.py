@@ -572,11 +572,23 @@ class Music(commands.Cog):
 ########## MISC BOT COMMANDS BELOW THIS LINE ##########
 #######################################################
 
-class Dice(commands.Cog):
+class Economy(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    async def withdraw_money(self, member, money):
+        # implementation here
+        pass
+
+    async def deposit_money(self, member, money):
+        # implementation here
+        pass
+
+
+class Gamble(commands.Cog):
     
     def __init__(self, bot: commands.Bot):
-        self.bot = bot 
-        self.voice_states = {}
+        self.bot = bot
 
     '''
     Methods below are for reference:
@@ -616,6 +628,12 @@ class Dice(commands.Cog):
         ]
         await ctx.send(', '.join(dice))
 
+
+    @commands.command(name='bet')
+    async def bet(self, ctx: commands.Context, amount: int):
+        pass
+
+
 class Speak(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -647,7 +665,8 @@ bot = commands.Bot('!', description='The best, all purpose bot.')
 
 bot.add_cog(Administrative(bot))
 bot.add_cog(Music(bot))
-bot.add_cog(Dice(bot))
+bot.add_cog(Economy(bot))
+bot.add_cog(Gamble(bot))
 bot.add_cog(Speak(bot))
 
 ##########################################
