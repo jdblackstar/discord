@@ -628,10 +628,22 @@ class Economy(commands.Cog):
 
 # Gamble class contains all methods related to gambling (duh)
 class Gamble(commands.Cog):
+    '''
+    Gamble methods:
+    - roll: rolls num_dice with num_sides
+    - bet(house): place a bet, flip a coin, get 2x if you win, lose all if you lose
+    - start_bet: starts a bet with a description, buy-in amount, duration (?)
+        - if another member types '!join', they'll accept the odds
+        - verified user (moderator+ will have to confirm the outcome of the bet, as it
+          will likely be tied to a real life event and LMAO if you think I'm gonna be
+          coding all that shit)
+
+    - STRETCH: implement blackjack
+    '''
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    # maybe add unload method here?
+    # maybe add unload method here? (i don't know what an unload method is)
 
     @commands.command(name='roll')
     async def roll(self, ctx: commands.Context, num_dice: int, num_sides: int):
@@ -642,10 +654,9 @@ class Gamble(commands.Cog):
         await ctx.send(', '.join(dice))
 
 
-    @commands.command(name='bet')
-    async def bet(self, ctx: commands.Context, amount: int):
+    @commands.command(name='bet_npc')
+    async def bet_npc(self, ctx: commands.Context, amount: int):
         pass
-
 
 # Speak class contains methods that return purely strings (jokes, one-liners, etc.)
 class Speak(commands.Cog):
