@@ -590,34 +590,6 @@ class Gamble(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    '''
-    Methods below are for reference:
-
-    def get_voice_state(self, ctx: commands.Context):
-        state = self.voice_states.get(ctx.guild.id)
-        if not state:
-            state = VoiceState(self.bot, ctx)
-            self.voice_states[ctx.guild.id] = state
-
-        return state
-
-    def cog_unload(self):
-        for state in self.voice_states.values():
-            self.bot.loop.create_task(state.stop())
-
-    # command for music bot to join channel
-    @commands.command(name='join', invoke_without_subcommand=True)
-    async def _join(self, ctx: commands.Context):
-        """Joins a voice channel."""
-
-        destination = ctx.author.voice.channel
-        if ctx.voice_state.voice:
-            await ctx.voice_state.voice.move_to(destination)
-            return
-
-        ctx.voice_state.voice = await destination.connect()
-    '''
-
     # maybe add unload method here?
 
     @commands.command(name='roll')
