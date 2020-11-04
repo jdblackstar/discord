@@ -335,18 +335,6 @@ class Music(commands.Cog):
     async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError):
         await ctx.send('An error occurred: {}'.format(str(error)))
 
-    # TODO try to implement the roll command here:
-    # don't know what I have to change to reflect that fact that I'm using OOP now
-    # maybe have to add 'self.dice = dice' under the main constructor for the music object?
-    # ??????????
-    @commands.command(name='roll')
-    async def roll(self, ctx: commands.Context, num_dice: int, num_sides: int):
-        dice = [
-            str(random.choice(range(1, num_sides + 1)))
-            for _ in range(num_dice)
-        ]
-        await ctx.send(', '.join(dice))
-
     # command for music bot to join channel
     @commands.command(name='join', invoke_without_subcommand=True)
     async def _join(self, ctx: commands.Context):
@@ -551,6 +539,55 @@ class Music(commands.Cog):
             if ctx.voice_client.channel != ctx.author.voice.channel:
                 raise commands.CommandError('Bot is already in a voice channel.')
 
+#######################################################
+########## MISC BOT COMMANDS BELOW THIS LINE ##########
+#######################################################
+
+class Dice(commands.Cog):
+    
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot 
+        self.voice_states = {}
+
+    '''
+    Methods below are for reference:
+
+    def get_voice_state(self, ctx: commands.Context):
+        state = self.voice_states.get(ctx.guild.id)
+        if not state:
+            state = VoiceState(self.bot, ctx)
+            self.voice_states[ctx.guild.id] = state
+
+        return state
+
+    def cog_unload(self):
+        for state in self.voice_states.values():
+            self.bot.loop.create_task(state.stop())
+
+    # command for music bot to join channel
+    @commands.command(name='join', invoke_without_subcommand=True)
+    async def _join(self, ctx: commands.Context):
+        """Joins a voice channel."""
+
+        destination = ctx.author.voice.channel
+        if ctx.voice_state.voice:
+            await ctx.voice_state.voice.move_to(destination)
+            return
+
+        ctx.voice_state.voice = await destination.connect()
+    '''
+
+    # maybe add unload method here?
+
+    # I believe the syntax of this is correct, but need to install FFMPEG to check
+    # TODO install FFMPEG
+    @commands.command(name='roll')
+    async def roll(self, ctx: commands.Context, num_dice: int, num_sides: int):
+        dice = [
+            str(random.choice(range(1, num_sides + 1)))
+            for _ in range(num_dice)
+        ]
+        await ctx.send(', '.join(dice))
 
 bot = commands.Bot('music.', description='Yet another music bot.')
 bot.add_cog(Music(bot))
