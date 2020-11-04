@@ -589,8 +589,9 @@ class Dice(commands.Cog):
         ]
         await ctx.send(', '.join(dice))
 
-bot = commands.Bot('music.', description='Yet another music bot.')
+bot = commands.Bot('!', description='Yet another music bot.')
 bot.add_cog(Music(bot))
+bot.add_cog(Dice(bot))
 
 
 @bot.event
