@@ -17,11 +17,9 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-bot = commands.Bot(command_prefix='!')
-
-################################
-########## BOT EVENTS ##########
-################################
+####################################
+##### BOT EVENTS (DEPRECIATED) #####
+####################################
 
 # # bot even to post a successful connection to stdout
 # @bot.event
@@ -34,20 +32,6 @@ bot = commands.Bot(command_prefix='!')
 # async def on_command_error(ctx, error):
 #     if isinstance(error, commands.errors.CheckFailure):
 #         await ctx.send('You do not have the correct role for this command.')
-
-########################################
-########## BASIC BOT COMMANDS ##########
-########################################
-
-# command to create a channel, pass it channel_name to be specific
-@bot.command(name='create-channel')
-@commands.has_role('admin')
-async def create_channel(ctx, channel_name='bot-test-2'):
-    guild = ctx.guild
-    existing_channel = discord.utils.get(guild.channels, name=channel_name)
-    if not existing_channel:
-        print(f'Creating a new channel: {channel_name}')
-        await guild.create_text_channel(channel_name)
 
 #######################################################
 ########## MUSIC BOT ATTEMPT BELOW THIS LINE ##########
@@ -565,6 +549,10 @@ class Dice(commands.Cog):
         ]
         await ctx.send(', '.join(dice))
 
+#########################################################
+########## ADMINISTRATIVE AND MODERATION TOOLS ##########
+#########################################################
+
 class Administrative(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot 
@@ -611,10 +599,18 @@ class Administrative(commands.Cog):
             await guild.create_text_channel(channel_name)
 
 bot = commands.Bot('!', description='The best, all purpose bot.')
+
+############################################
+########## ADD BOT COGS (MODULES) ##########
+############################################
+
 bot.add_cog(Music(bot))
 bot.add_cog(Dice(bot))
 bot.add_cog(Administrative(bot))
 
+##########################################
+########## UNIVERSAL BOT EVENTS ##########
+##########################################
 @bot.event
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
