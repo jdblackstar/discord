@@ -17,9 +17,9 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-####################################
-##### BOT EVENTS (DEPRECIATED) #####
-####################################
+##############################################
+########## BOT EVENTS (DEPRECIATED) ##########
+##############################################
 
 # # bot even to post a successful connection to stdout
 # @bot.event
@@ -556,7 +556,6 @@ class Dice(commands.Cog):
 class Administrative(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot 
-        self.voice_states = {}
 
     @commands.command(name='speak')
     @commands.has_any_role('admin', 'friend')
@@ -598,6 +597,18 @@ class Administrative(commands.Cog):
             print(f'Creating a new channel: {channel_name}')
             await guild.create_text_channel(channel_name)
 
+    # @commands.command(name='delete-channel')
+    # @commands.has_role('admin')
+    # async def create_channel(self, ctx: commands.Context, channel_name=None):
+    #     guild = ctx.guild
+    #     existing_channel = discord.utils.get(guild.channels, name=channel_name)
+    #     if existing_channel:
+    #         print(f'Deleting the specifid channel: {channel_name}')
+    #         await guild.delete_text_channel(channel_name)
+    #     else:
+    #         print(f'Channel {channel_name} not found.')
+
+
 bot = commands.Bot('!', description='The best, all purpose bot.')
 
 ############################################
@@ -611,6 +622,7 @@ bot.add_cog(Administrative(bot))
 ##########################################
 ########## UNIVERSAL BOT EVENTS ##########
 ##########################################
+
 @bot.event
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
@@ -619,8 +631,5 @@ async def on_ready():
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         await ctx.send('You do not have the correct role for this command.')
-
-# it would be bad form, but maybe I can just add regular @bot.commands here?
-# should probably avoid doing that as much as possible, though
 
 bot.run(TOKEN)
