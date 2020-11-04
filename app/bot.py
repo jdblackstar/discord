@@ -572,21 +572,62 @@ class Music(commands.Cog):
 ########## MISC BOT COMMANDS BELOW THIS LINE ##########
 #######################################################
 
+# Economy class contains all methods related to the server's 'money'
+# possibly even RDS stuff, but I'll need to consult someone on that
 class Economy(commands.Cog):
+    '''
+    Economy class to allow users to have a 'balance' of money.
+
+    methods needed:
+    - withdraw_money
+    - deposit_money
+    - check_balance
+    - pay (probably reserved for admin to grant money)
+    - request (?)
+
+    Thinking about using an RDS to keep track of users' money. Will need some help with that,
+    most likely.
+
+    For solo bets:
+    - decided by coin flip
+    - no trusted party needed to confirm/reject the outcome of a bet
+
+    For multiple party bets:
+    two scenarios:
+    - bet on real life event
+        - outcome determined by manual input (verified person only)
+    - random chance bet
+        - coin flip, but maybe more exciting 
+            - think death roll from WoW, can explain if needed
+        - number guessing? idk
+    '''
+
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    async def withdraw_money(self, member, money):
-        # implementation here
+    @commands.command(name='withdraw')
+    async def withdraw_money(self, user: discord.User, amount: int):
         pass
 
-    async def deposit_money(self, member, money):
-        # implementation here
+    @commands.command(name='deposit')
+    async def deposit_money(self, user: discord.User, amount: int):
+        pass
+
+    @commands.command(name='balance')
+    async def check_balance(self, user: discord.User, money: int):
+        pass
+
+    @commands.command(name='pay')
+    async def pay_user(self, user: discord.User, member: discord.Member, amount: int):
+        pass
+
+    @commands.command(name='charge')
+    async def charge_user(self, user: discord.User, member: discount.Member, amount: int):
         pass
 
 
+# Gamble class contains all methods related to gambling (duh)
 class Gamble(commands.Cog):
-    
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
@@ -606,6 +647,7 @@ class Gamble(commands.Cog):
         pass
 
 
+# Speak class contains methods that return purely strings (jokes, one-liners, etc.)
 class Speak(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
