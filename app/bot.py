@@ -4,6 +4,7 @@ import functools
 import itertools
 import math
 import asyncio
+import json
 
 import discord
 import youtube_dl
@@ -579,8 +580,8 @@ class Economy(commands.Cog):
     Economy class to allow users to have a 'balance' of money.
 
     methods needed:
-    - withdraw_money
-    - deposit_money
+    - on_join
+    - on_message
     - check_balance
     - pay (probably reserved for admin to grant money)
     - request (?)
@@ -605,25 +606,17 @@ class Economy(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.command(name='withdraw')
-    async def withdraw_money(self, user: discord.User, amount: int):
-        pass
-
-    @commands.command(name='deposit')
-    async def deposit_money(self, user: discord.User, amount: int):
-        pass
-
     @commands.command(name='balance')
     async def check_balance(self, user: discord.User, money: int):
-        pass
+        ...
 
     @commands.command(name='pay')
     async def pay_user(self, user: discord.User, member: discord.Member, amount: int):
-        pass
+        ...
 
     @commands.command(name='charge')
     async def charge_user(self, user: discord.User, member: discount.Member, amount: int):
-        pass
+        ...
 
 
 # Gamble class contains all methods related to gambling (duh)
@@ -656,7 +649,7 @@ class Gamble(commands.Cog):
 
     @commands.command(name='bet_npc')
     async def bet_npc(self, ctx: commands.Context, amount: int):
-        pass
+        ...
 
 # Speak class contains methods that return purely strings (jokes, one-liners, etc.)
 class Speak(commands.Cog):
