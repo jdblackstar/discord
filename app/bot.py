@@ -383,7 +383,7 @@ class Music(commands.Cog):
     @commands.command(name='join', invoke_without_subcommand=True)
     async def _join(self, ctx: commands.Context):
         '''
-        Joins a voice channel.
+        Joins the invoking member's current voice channel.
         '''
         destination = ctx.author.voice.channel
         if ctx.voice_state.voice:
@@ -654,7 +654,7 @@ class Economy(commands.Cog):
         ...
 
     @commands.command(name='charge')
-    async def charge_user(self, ctx: commands.Context, member: discount.Member, amount: int):
+    async def charge_user(self, ctx: commands.Context, member: discord.Member, amount: int):
         '''
         Requests a payment from a specific member's 
         '''
