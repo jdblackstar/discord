@@ -63,17 +63,29 @@ class Administrative(commands.Cog):
         Also sends a DM with information on the mute; who applied it, for how long
         and what the reason was (if there was one)
         '''
+
+        ##### ADD CONDITION TO MAKE MUTING THE BOT IMPOSSIBLE
+
         role = discord.utils.get(ctx.guild.roles, name='muted')
-        await member.add_roles(role)
+        if discord.utils.get(ctx.guild.roles, name='admin') in member.roles:
+            await ctx.send("Nah, can't mute an admin")
+        elif discord.utils.get(ctx.guild.roles, name='moderator') in member.roles:
+            await ctx.send("Nah, can't mute a moderator")
+        elif discord.utils.get(ctx.guild.roles, name='BSbot') in member.roles:
+            await ctx.send("I'm not gonna mute myself...")
+        elif discord.utils.get(ctx.guild.roles, name='muted') in member.roles:
+            await ctx.send("They're already muted")
+        else:
+            await member.add_roles(role)
 
-        embed = discord.Embed(color=discord.Color.green())
-        embed.add_field(name=f'You\'ve been **Muted** in {ctx.guild.name}.', value=f'**Action By: **{ctx.author.mention}\n**Reason: **{reason}\n**Duration:** {mute_time}')
-        await member.send(embed=embed)
+            embed = discord.Embed(color=discord.Color.green())
+            embed.add_field(name=f'You\'ve been **Muted** in {ctx.guild.name}.', value=f'**Action By: **{ctx.author.mention}\n**Reason: **{reason}\n**Duration:** {mute_time}')
+            await member.send(embed=embed)
 
-        await ctx.send(f'{member.name} muted for {mute_time} seconds by {ctx.author.name}.')
-        await asyncio.sleep(mute_time)
-        await member.remove_roles(role)
-        await ctx.send(f'{member.name} has been unmuted.')
+            await ctx.send(f'{member.name} muted for {mute_time} seconds by {ctx.author.name}.')
+            await asyncio.sleep(mute_time)
+            await member.remove_roles(role)
+            await ctx.send(f'{member.name} has been unmuted.')
 
 
     # @commands.command(name='mute')
