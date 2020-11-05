@@ -24,19 +24,64 @@
 
 2. [Music](#music)
     - !join
+        - Role requirements:
+          anyone
+        - Joins the invoking member's current voice channel.
     - !summon(channel)
+        - Role requirements:
+          should be (admin, moderator)
+        - Summons the bot to a voice channel.
+        If no channel was specified, it joins your channel.
     - !leave
+        - Role requiresments:
+          manage_guild = manage server i guess?
+        - Clears queue and leaves channel
     - !volume(volume: int)
-    - !now
+        - Role requirements:
+          none
+        - Sets the volume based on int (0-100)
+    - !now or !current, !playing
+        - Role requirements:
+          none
+        - Displays the currently playing song + creates embed
     - !pause
+        - Role requirements:
+          manage_guild
+        - Pauses the song and adds play/pause emoji reaction to your message
     - !resume
+        - Role requirements:
+          manage_guild
+        - Resumes currently playing song and adds play/pause emoji reaction to your message
     - !stop
+        - Role requirements:
+          manage_guild
+        - Stop playing song and clears queue, adds Stop emoji reaction to your message
     - !skip
+        - Role requirements:
+          can skip without vote if you requested the song playing
+        - initializes a vote to skip
+        - if you're the person who requested the song, you can auto-skip
     - !queue(page: int=1)
+        - Role requirements:
+          none
+        - Show's the player's queue, with the ability to specify the number of pages you want to show
     - !shuffle
+        - Role requirements:
+          none
+        - Confirms queue has been shuffled with the green_check emoji reaction
     - !remove(index: int)
+        - Role requirements:
+          none
+        - removes the song at specified position in queue (starting from 1)
     - !loop
+        - Role requirements:
+          none
+        - loops song, invoke again to unlooop
+        - adds green_check emoji as confirmation
     - !play(search: str)
+        - Role requirements:
+          none (maybe should change this)
+        - can either take a URL, or searches various sites if no URL is given
 
 3. [Economy](#economy)
     - !on_join
