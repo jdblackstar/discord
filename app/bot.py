@@ -709,6 +709,10 @@ class Speak(commands.Cog):
     @commands.command(name='speak')
     @commands.has_any_role('admin', 'friend')
     async def rand_response(self, ctx: commands.Context):
+        '''
+        Returns a random response from the list below
+        Would like to expand on this and do some NLP maybe
+        '''
         responses = [
             'response 1',
             'response 2',
