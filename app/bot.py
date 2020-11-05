@@ -633,18 +633,31 @@ class Economy(commands.Cog):
 
     @commands.command(name='balance')
     async def check_balance(self, ctx: commands.Context):
+        '''
+        Tells the user their current balance of points.
+        '''
         ...
 
     @commands.command(name='xbalance')
     async def check_user_balance(self, ctx: commands.Context, member: discord.Member):
+        '''
+        Shows the balance of a specific member - probably only used by admins and mods
+        '''
         ...
 
     @commands.command(name='pay')
     async def pay_user(self, ctx: commands.Context, member: discord.Member, amount: int):
+        '''
+        Transfers points from the user's balance to the specific member's balance
+        Maybe add a default amount?
+        '''
         ...
 
     @commands.command(name='charge')
     async def charge_user(self, ctx: commands.Context, member: discount.Member, amount: int):
+        '''
+        Requests a payment from a specific member's 
+        '''
         ...
 
 
@@ -669,6 +682,9 @@ class Gamble(commands.Cog):
 
     @commands.command(name='roll')
     async def roll(self, ctx: commands.Context, num_dice: int, num_sides: int):
+        '''
+        Rolles a num_dice number of dice with num_sides number of sides
+        '''
         dice = [
             str(random.choice(range(1, num_sides + 1)))
             for _ in range(num_dice)
@@ -678,6 +694,11 @@ class Gamble(commands.Cog):
 
     @commands.command(name='bet_npc')
     async def bet_npc(self, ctx: commands.Context, amount: int):
+        '''
+        rolls 1-100
+        even number, member's amount entered is doubled
+        odd number, member's amount entered is subtracted from balance
+        '''
         ...
 
 # Speak class contains methods that return purely strings (jokes, one-liners, etc.)
