@@ -687,7 +687,7 @@ class Gamble(commands.Cog):
 
     - STRETCH: implement blackjack
     '''
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: commands.Bot):  
         self.bot = bot
 
     # maybe add unload method here? (i don't know what an unload method is)
