@@ -46,6 +46,9 @@ class Administrative(commands.Cog):
     @commands.command(name='addrole', pass_context=True)
     @commands.has_any_role('admin', 'moderator')
     async def addrole(self, ctx: commands.Context, member: discord.Member, role: discord.Role):
+        '''
+        Assigns a specific user (member) a specific role. Can only be used by admins and mods
+        '''
         await member.add_roles(role)
         await ctx.send(f'{member.name} has been given the \'{role.name}\' role by {ctx.author.name}.')
 
@@ -53,6 +56,13 @@ class Administrative(commands.Cog):
     @commands.command(name='mute', pass_context=True)
     @commands.has_any_role('admin', 'moderator')
     async def mute(self, ctx: commands.Context, member: discord.Member, mute_time: int, reason=None):
+        '''
+        Mutes a specific member, for an amount of seconds. Can optionally give a reason.
+        Can only be used by admins and moderators.
+
+        Also sends a DM with information on the mute; who applied it, for how long
+        and what the reason was (if there was one)
+        '''
         role = discord.utils.get(ctx.guild.roles, name='muted')
         await member.add_roles(role)
 
@@ -82,6 +92,10 @@ class Administrative(commands.Cog):
     @commands.command(name='create-channel')
     @commands.has_role('admin')
     async def create_channel(self, ctx: commands.Context, channel_name='bot-test-2'):
+        '''
+        Method to create a channel with a specific name.
+        Not sure how useful this is, because you can't put it in a category (or inherit permissions)
+        '''
         guild = ctx.guild
         existing_channel = discord.utils.get(guild.channels, name=channel_name)
         if not existing_channel:
@@ -607,15 +621,19 @@ class Economy(commands.Cog):
         self.bot = bot
 
     @commands.command(name='balance')
-    async def check_balance(self, user: discord.User, money: int):
+    async def check_balance(self, ctx: commands.Context):
+        ...
+
+    @commands.command(name='xbalance')
+    async def check_user_balance(self, ctx: commands.Context, member: discord.Member):
         ...
 
     @commands.command(name='pay')
-    async def pay_user(self, user: discord.User, member: discord.Member, amount: int):
+    async def pay_user(self, ctx: commands.Context, member: discord.Member, amount: int):
         ...
 
     @commands.command(name='charge')
-    async def charge_user(self, user: discord.User, member: discount.Member, amount: int):
+    async def charge_user(self, ctx: commands.Context, member: discount.Member, amount: int):
         ...
 
 
