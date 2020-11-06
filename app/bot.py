@@ -643,6 +643,14 @@ class Economy(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
+    @commands.command(name='on_join')
+    async def on_join(self, ctx: commands.Context):
+        ...
+
+    @commands.command(name='on_message')
+    async def on_message(self, ctx: commands.Context):
+        ...
+
     @commands.command(name='balance')
     async def check_balance(self, ctx: commands.Context):
         '''
@@ -740,6 +748,11 @@ class Speak(commands.Cog):
         
         response = random.choice(responses)
         await ctx.send(response)
+
+    @commands.command(name='choose')
+    async def choose(self, ctx: commands.Context, *choices: str):
+        await ctx.send(random.choice(choices))
+
 
 ############################################
 ########## ADD BOT COGS (MODULES) ##########

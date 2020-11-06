@@ -2,6 +2,14 @@
 
 ## Features (Callable methods)
 1. [Administration](#administration)
+2. [Music](#music)
+3. [Economy](#economy)
+4. [Gambling Minigame](#gambling)
+5. [Speak](#speak)
+
+
+
+### administration
     - !addrole(member, role)
         - Role requirements:
           admin, moderator
@@ -22,7 +30,7 @@
         - Method to create a channel with a specific name.
         Not sure how useful this is, because you can't put it in a category (or inherit permissions)
 
-2. [Music](#music)
+### music
     - !join
         - Role requirements:
           anyone
@@ -83,17 +91,20 @@
           none (maybe should change this)
         - can either take a URL, or searches various sites if no URL is given
 
-3. [Economy](#economy)
+### economy
     - !on_join
     - !on_message
     - !balance
     - !xbalance(member)
     - !pay(member, amount: int)
     - !charge(member, amount: int)
+    
+    Non-callable methods:
+    - !update_balance
 
-4. [Gambling Minigames](#gambling)
+### gambling
     - !roll(num_dice: int, num_sides: int)
     - !bet_npc(amount: int)
 
-5. [Speak](#speak)
+### speak
     - !speak
