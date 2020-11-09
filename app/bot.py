@@ -727,7 +727,7 @@ class Speak(commands.Cog):
         self.bot = bot
     
     @commands.command(name='speak')
-    @commands.has_any_role('admin', 'friend')
+    @commands.has_any_role('admin', 'moderator', 'friend')
     async def rand_response(self, ctx: commands.Context):
         '''
         Returns a random response from the list below
