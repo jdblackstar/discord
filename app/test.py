@@ -1,4 +1,4 @@
-from player import *
+from player import Player
 
 name = input("What is your name? ")
 josh = Player(name, 1000)
