@@ -41,7 +41,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 class Administrative(commands.Cog):
     def __init__(self, bot: commands.Bot):
-        self.bot = bot 
+        self.bot = bot
 
     @commands.command(name='addrole', pass_context=True)
     @commands.has_any_role('admin', 'moderator')
@@ -204,7 +204,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
                 if entry:
                     process_info = entry
                     break
-            
+
             if process_info in None:
                 raise YTDLError('Couldn\'t find anything that matches `{}`'.format(search))
 
@@ -224,7 +224,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
                     info = processed_info['entries'].pop(0)
                 except IndexError:
                     raise YTDLError('Couldn\'t retrieve any matches for `{}`'.format(webpage_url))
-        
+
         return cls(ctx, discord.FFmpegPCMAudio(info['url'], **cls.FFMPEG_OPTIONS), data=info)
 
     @staticmethod
@@ -336,7 +336,7 @@ class VoiceState:
                 except asyncio.TimeoutError:
                     self.bot.loop.create_task(self.stop())
                     return
-            
+
             self.current.source.volume = self._volume
             self.voice.play(self.current.source, after=self.play_next_song)
             await self.current.source.channel.send(embed=self.current.create_embed())
@@ -348,7 +348,7 @@ class VoiceState:
             raise VoiceError(str(error))
 
         self.next.set()
-    
+
     def skip(self):
         self.skip_votes.clear()
 
@@ -364,7 +364,7 @@ class VoiceState:
 
 class Music(commands.Cog):
     def __init__(self, bot: commands.Bot):
-        self.bot = bot 
+        self.bot = bot
         self.voice_states = {}
 
     def get_voice_state(self, ctx: commands.Context):
@@ -635,7 +635,7 @@ class Economy(commands.Cog):
     - bet on real life event
         - outcome determined by manual input (verified person only)
     - random chance bet
-        - coin flip, but maybe more exciting 
+        - coin flip, but maybe more exciting
             - think death roll from WoW, can explain if needed
         - number guessing? idk
     '''
@@ -676,7 +676,7 @@ class Economy(commands.Cog):
     @commands.command(name='charge')
     async def charge_user(self, ctx: commands.Context, member: discord.Member, amount: int):
         '''
-        Requests a payment from a specific member's 
+        Requests a payment from a specific member's
         '''
         ...
 
@@ -695,7 +695,7 @@ class Gamble(commands.Cog):
 
     - STRETCH: implement blackjack
     '''
-    def __init__(self, bot: commands.Bot):  
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     # maybe add unload method here? (i don't know what an unload method is)
@@ -725,7 +725,7 @@ class Gamble(commands.Cog):
 class Speak(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-    
+
     @commands.command(name='speak')
     @commands.has_any_role('admin', 'moderator', 'friend')
     async def rand_response(self, ctx: commands.Context):
@@ -745,7 +745,7 @@ class Speak(commands.Cog):
             'response 9',
             'response 10'
         ]
-        
+
         response = random.choice(responses)
         await ctx.send(response)
 
