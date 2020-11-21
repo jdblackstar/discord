@@ -1,13 +1,13 @@
 import math
 import random
 
+
 class Player():
     def __init__(self, name, balance):
         self.name = name
         self.balance = balance
 
-
-    def bet(self, amount: int): #mostly for testing
+    def bet(self, amount: int):  # mostly for testing
 
         if self.balance >= amount:
             odds = random.choice(range(1, 101))
@@ -24,7 +24,6 @@ class Player():
 
         print("Balance: ", self.balance)
 
-
     def pay(self, amount: int):
         if self.balance >= amount:
             self.balance -= amount
@@ -32,11 +31,9 @@ class Player():
         else:
             print("Insufficient funds.")
 
-
     def get(self, amount: int):
         self.balance += amount
         return self.balance
-
 
     def check(self):
         print("Your balance is: ", self.balance)
