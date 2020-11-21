@@ -204,11 +204,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
                 if entry:
                     process_info = entry
                     break
-<<<<<<< HEAD
             
-=======
-
->>>>>>> 9b6ef84a8de4b3f39113cf0267e740ea0bc44e19
             if process_info is None:
                 raise YTDLError('Couldn\'t find anything that matches `{}`'.format(search))
 
