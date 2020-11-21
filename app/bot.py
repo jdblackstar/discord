@@ -44,7 +44,7 @@ class Administrative(commands.Cog):
         self.bot = bot
 
     @commands.command(name='addrole', pass_context=True)
-    @commands.has_any_role('admin', 'moderator')
+    @commands.has_any_role('admin', 'moderator', 'owner', 'Admin')
     async def addrole(self, ctx: commands.Context, member: discord.Member, role: discord.Role):
         '''
         Assigns a specific user (member) a specific role. Can only be used by admins and mods
@@ -54,7 +54,7 @@ class Administrative(commands.Cog):
 
 
     @commands.command(name='mute', pass_context=True)
-    @commands.has_any_role('admin', 'moderator')
+    @commands.has_any_role('admin', 'moderator', 'owner', 'Admin')
     async def mute(self, ctx: commands.Context, member: discord.Member, mute_time: int, reason=None):
         '''
         Mutes a specific member, for an amount of seconds. Can optionally give a reason.
@@ -69,6 +69,10 @@ class Administrative(commands.Cog):
         role = discord.utils.get(ctx.guild.roles, name='muted')
         if discord.utils.get(ctx.guild.roles, name='admin') in member.roles:
             await ctx.send("Nah, can't mute an admin.")
+        if discord.utils.get(ctx.guild.roles, name='Admin') in member.roles:
+            await ctx.send("Nah, can't mute an admin.")
+        if discord.utils.get(ctx.guild.roles, name='Owner') in member.roles:
+            await ctx.send("Nah, not gonna mute that guy.")
         elif discord.utils.get(ctx.guild.roles, name='moderator') in member.roles:
             await ctx.send("Nah, can't mute a moderator.")
         elif discord.utils.get(ctx.guild.roles, name='BSbot') in member.roles:
@@ -102,7 +106,7 @@ class Administrative(commands.Cog):
 
 
     @commands.command(name='create-channel')
-    @commands.has_role('admin')
+    @commands.has_any_role('admin', 'Admin', 'Owner')
     async def create_channel(self, ctx: commands.Context, channel_name='bot-test-2'):
         '''
         Method to create a channel with a specific name.
@@ -460,7 +464,6 @@ class Music(commands.Cog):
         '''
         Pauses the currently playing song.
         '''
-        await ctx.send("Pause requested.")   # debug ONLY
         if ctx.voice_state.voice.is_playing():   # and ctx.voice_state.voice.is_playing()
             ctx.voice_state.voice.pause()
             await ctx.message.add_reaction('⏯')
