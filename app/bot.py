@@ -205,14 +205,14 @@ class YTDLSource(discord.PCMVolumeTransformer):
                     process_info = entry
                     break
 
-            if process_info in None:
+            if process_info is None:
                 raise YTDLError('Couldn\'t find anything that matches `{}`'.format(search))
 
         webpage_url = process_info['webpage_url']
         partial = functools.partial(cls.ytdl.extract_info, webpage_url, download=False)
         processed_info = await loop.run_in_executor(None, partial)
 
-        if processed_info in None:
+        if processed_info is None:
             raise YTDLError('Couldn\'t fetch `{}`'.format(webpage_url))
 
         if 'entries' not in processed_info:
