@@ -75,7 +75,7 @@ class Administrative(commands.Cog):
             await ctx.send("Nah, not gonna mute that guy.")
         elif discord.utils.get(ctx.guild.roles, name='moderator') in member.roles:
             await ctx.send("Nah, can't mute a moderator.")
-        elif discord.utils.get(ctx.guild.roles, name='BSbot') in member.roles:
+        elif discord.utils.get(ctx.guild.roles, name='BSBot') in member.roles:
             await ctx.send("I'm not gonna mute myself...")
         elif discord.utils.get(ctx.guild.roles, name='muted') in member.roles:
             await ctx.send(f"{member.name} is already muted.")
@@ -395,7 +395,6 @@ class Music(commands.Cog):
     async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError):
         await ctx.send('An error occurred: {}'.format(str(error)))
 
-    # command for music bot to join channel
     @commands.command(name='join', invoke_without_subcommand=True)
     async def _join(self, ctx: commands.Context):
         '''
