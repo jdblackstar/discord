@@ -71,7 +71,13 @@ class Administrative(commands.Cog):
         and what the reason was (if there was one)
         '''
 
-        ##### ADD CONDITION TO MAKE MUTING THE BOT IMPOSSIBLE
+        #TODO:
+        # - check for 'muted' role on server
+        # - make it if it doesn't exist
+
+        self.addmuted(ctx)
+
+        # i think this should just work? guess we'll find out.
 
         role = discord.utils.get(ctx.guild.roles, name='muted')
         if discord.utils.get(ctx.guild.roles, name='admin') in member.roles:
