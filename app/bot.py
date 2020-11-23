@@ -46,9 +46,10 @@ class Administrative(commands.Cog):
     @commands.command()
     async def addmuted(self, ctx: commands.Context):
         if get(ctx.guild.roles, name='muted'):
-            await ctx.send('role already exists')
+            print('muted role already exists')
         else:
             await ctx.guild.create_role(name='muted', color=discord.Color('0xff0000'))
+            print('muted role created')
 
     @commands.command(name='addrole', pass_context=True)
     @commands.has_any_role('admin', 'moderator', 'owner', 'Admin')
@@ -70,14 +71,6 @@ class Administrative(commands.Cog):
         Also sends a DM with information on the mute; who applied it, for how long
         and what the reason was (if there was one)
         '''
-
-        #TODO:
-        # - check for 'muted' role on server
-        # - make it if it doesn't exist
-
-        self.addmuted(ctx)
-
-        # i think this should just work? guess we'll find out.
 
         role = discord.utils.get(ctx.guild.roles, name='muted')
         if discord.utils.get(ctx.guild.roles, name='admin') in member.roles:
@@ -789,6 +782,13 @@ bot.add_cog(Speak(bot))
 @bot.event
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
+
+@bot.event
+async def addmuted2(ctx):
+    if get(ctx.guild.roles, name='muted'):
+        print('muted role already exists')
+    else:
+        await ctx.guild.create_role(name="muted", colour=discord.Colour(0xff0000))
 
 @bot.event
 async def on_command_error(ctx, error):
