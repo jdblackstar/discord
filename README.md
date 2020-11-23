@@ -10,12 +10,15 @@
 
 
 ### administration
+    - addmuted (not callable)
+        - checks for "muted" role and adds it if it's not there
     - !addrole(member, role)
         - Role requirements:
           admin, moderator
         - Assigns a specific member a role.
         - Maybe add a role called '!verify' that only gives the 'friend' role
     - !mute(member, mute_time: int, reason)
+        - (addmuted function required)
         - Role requirements:
           admin, moderator
         - Mutes a specific member, for an amount of seconds. Can optionally give a reason.
