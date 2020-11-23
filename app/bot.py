@@ -783,12 +783,6 @@ bot.add_cog(Speak(bot))
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
 
-@bot.event
-async def addmuted2(ctx):
-    if get(ctx.guild.roles, name='muted'):
-        print('muted role already exists')
-    else:
-        await ctx.guild.create_role(name="muted", colour=discord.Colour(0xff0000))
 
 @bot.event
 async def on_command_error(ctx, error):
