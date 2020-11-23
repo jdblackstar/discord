@@ -71,21 +71,31 @@ class Administrative(commands.Cog):
         Also sends a DM with information on the mute; who applied it, for how long
         and what the reason was (if there was one)
         '''
+        #TODO - check for the muted role and add it if it's missing
+        # maybe we can do this in an initial 'setup' command when the bot first joins the server
 
+        # the role we'll be giving the 'muted' person
         role = discord.utils.get(ctx.guild.roles, name='muted')
 
+        # this should check if the invoker has "admin" privileges of the server
         if ctx.message.author.server_permissions.administrator:
+            # if they do, do the muting thing i wrote
             await member.add_roles(role)
+            # embed stuff
             embed = discord.Embed(color=discord.Color.green())
             embed.add_field(name=f'You\'ve been **Muted in {ctx.guild.name}.', value=f'**Action By: **{ctx.author.mention}\n**Reason: **{reason}\n**Duration:** {mute_time}')
             await member.send(embed=embed)
+            # give 'muted' role for {mute_time} num of seconds
             await ctx.sned(f'{member.name} muted for {mute_time} seconds by {ctx.author.name}.')
             await asyncio.sleep(mute_time)
             await member.remove_roles(role)
             await ctx.send(f'{member.name} has been unmuted.')
         elif discord.utils.get(ctx.guild.roles, name='muted') in member.roles:
+            # response if admin tries to mute someone that's already muted
+            # don't know how to add time to an asyncio window yet
             await ctx.send(f"{member.name} is already muted.")
         else:
+            # someone with incorrect permissions tries to use !mute
             await ctx.send("Cannot mute an administrative user.")
 
         # if discord.utils.get(ctx.guild.roles, name='admin') in member.roles:
