@@ -43,6 +43,13 @@ class Administrative(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
+    @commands.command()
+    async def addmuted(self, ctx: commands.Context):
+        if get(ctx.guild.roles, name='muted'):
+            await ctx.send('role already exists')
+        else:
+            await ctx.guild.create_role(name='muted', color=discord.Color('0xff0000'))
+
     @commands.command(name='addrole', pass_context=True)
     @commands.has_any_role('admin', 'moderator', 'owner', 'Admin')
     async def addrole(self, ctx: commands.Context, member: discord.Member, role: discord.Role):
