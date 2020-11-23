@@ -73,29 +73,44 @@ class Administrative(commands.Cog):
         '''
 
         role = discord.utils.get(ctx.guild.roles, name='muted')
-        if discord.utils.get(ctx.guild.roles, name='admin') in member.roles:
-            await ctx.send("Nah, can't mute an admin.")
-        if discord.utils.get(ctx.guild.roles, name='Admin') in member.roles:
-            await ctx.send("Nah, can't mute an admin.")
-        if discord.utils.get(ctx.guild.roles, name='Owner') in member.roles:
-            await ctx.send("Nah, not gonna mute that guy.")
-        elif discord.utils.get(ctx.guild.roles, name='moderator') in member.roles:
-            await ctx.send("Nah, can't mute a moderator.")
-        elif discord.utils.get(ctx.guild.roles, name='BSBot') in member.roles:
-            await ctx.send("I'm not gonna mute myself...")
-        elif discord.utils.get(ctx.guild.roles, name='muted') in member.roles:
-            await ctx.send(f"{member.name} is already muted.")
-        else:
+
+        if ctx.message.author.server_permissions.administrator:
             await member.add_roles(role)
-
             embed = discord.Embed(color=discord.Color.green())
-            embed.add_field(name=f'You\'ve been **Muted** in {ctx.guild.name}.', value=f'**Action By: **{ctx.author.mention}\n**Reason: **{reason}\n**Duration:** {mute_time}')
+            embed.add_field(name=f'You\'ve been **Muted in {ctx.guild.name}.', value=f'**Action By: **{ctx.author.mention}\n**Reason: **{reason}\n**Duration:** {mute_time}')
             await member.send(embed=embed)
-
-            await ctx.send(f'{member.name} muted for {mute_time} seconds by {ctx.author.name}.')
+            await ctx.sned(f'{member.name} muted for {mute_time} seconds by {ctx.author.name}.')
             await asyncio.sleep(mute_time)
             await member.remove_roles(role)
             await ctx.send(f'{member.name} has been unmuted.')
+        elif discord.utils.get(ctx.guild.roles, name='muted') in member.roles:
+            await ctx.send(f"{member.name} is already muted.")
+        else:
+            await ctx.send("Cannot mute an administrative user.")
+
+        # if discord.utils.get(ctx.guild.roles, name='admin') in member.roles:
+        #     await ctx.send("Nah, can't mute an admin.")
+        # if discord.utils.get(ctx.guild.roles, name='Admin') in member.roles:
+        #     await ctx.send("Nah, can't mute an admin.")
+        # if discord.utils.get(ctx.guild.roles, name='Owner') in member.roles:
+        #     await ctx.send("Nah, not gonna mute that guy.")
+        # elif discord.utils.get(ctx.guild.roles, name='moderator') in member.roles:
+        #     await ctx.send("Nah, can't mute a moderator.")
+        # elif discord.utils.get(ctx.guild.roles, name='BSBot') in member.roles:
+        #     await ctx.send("I'm not gonna mute myself...")
+        # elif discord.utils.get(ctx.guild.roles, name='muted') in member.roles:
+        #     await ctx.send(f"{member.name} is already muted.")
+        # else:
+        #     await member.add_roles(role)
+
+        #     embed = discord.Embed(color=discord.Color.green())
+        #     embed.add_field(name=f'You\'ve been **Muted** in {ctx.guild.name}.', value=f'**Action By: **{ctx.author.mention}\n**Reason: **{reason}\n**Duration:** {mute_time}')
+        #     await member.send(embed=embed)
+
+        #     await ctx.send(f'{member.name} muted for {mute_time} seconds by {ctx.author.name}.')
+        #     await asyncio.sleep(mute_time)
+        #     await member.remove_roles(role)
+        #     await ctx.send(f'{member.name} has been unmuted.')
 
 
     # @commands.command(name='mute')
@@ -782,7 +797,6 @@ bot.add_cog(Speak(bot))
 @bot.event
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
-
 
 @bot.event
 async def on_command_error(ctx, error):
