@@ -77,9 +77,10 @@ class Administrative(commands.Cog):
         # the role we'll be giving the 'muted' person
         role = discord.utils.get(ctx.guild.roles, name='muted')
 
-        # this should check if the invoker has "admin" privileges of the server
-        if ctx.message.author.server_permissions.administrator:
-            # if they do, do the muting thing i wrote
+        # this should check if the member has "admin" privileges of the server
+        '''
+        if 
+            # if they do NOT, do the muting thing i wrote
             await member.add_roles(role)
             # embed stuff
             embed = discord.Embed(color=discord.Color.green())
@@ -121,7 +122,7 @@ class Administrative(commands.Cog):
         #     await asyncio.sleep(mute_time)
         #     await member.remove_roles(role)
         #     await ctx.send(f'{member.name} has been unmuted.')
-
+    '''
 
     # @commands.command(name='mute')
     # @commands.command(pass_context = True)
